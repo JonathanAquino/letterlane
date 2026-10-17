@@ -1,0 +1,7 @@
+{
+  "ownerEmail": "you@gmail.com",
+  "origin": "http://127.0.0.1:4317",
+  "port": 4317,
+  "googleClientId": "YOUR_WEB_APPLICATION_CLIENT_ID.apps.googleusercontent.com",
+  "googleClientSecret": "YOUR_CLIENT_SECRET"
+}

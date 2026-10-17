@@ -1,0 +1,11 @@
+{
+  "name": "Letterlane",
+  "short_name": "Letterlane",
+  "description": "A quieter place for your Gmail.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#faf8f3",
+  "theme_color": "#204d45",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

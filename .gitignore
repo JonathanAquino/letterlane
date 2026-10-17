@@ -1,0 +1,12 @@
+.data/
+config.local.json
+*.log
+.DS_Store
+node_modules/
+coverage/
+*.pem
+*.key
+client_secret*.json
+credentials*.json
+.env*
+!.env.example

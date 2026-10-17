@@ -1,0 +1,14 @@
+{
+  "name": "letterlane",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal Gmail workspace, served privately from your Mac.",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "start": "node server/main.js",
+    "demo": "node server/main.js --demo",
+    "test": "node --test",
+    "check": "node --check server/main.js && node --check public/app.js"
+  }
+}
