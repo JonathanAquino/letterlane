@@ -6,7 +6,7 @@ import { cookie, cookies, constantEqual, email, headers, randomToken, readJSON, 
 import { prepareMessage } from './mail.js';
 import { destinations } from './store.js';
 const publicDir = join(dirname(fileURLToPath(import.meta.url)), '../public');
-const assets = new Map([['/', ['index.html', 'text/html']], ['/app.js', ['app.js', 'text/javascript']], ['/style.css', ['style.css', 'text/css']], ['/icon.svg', ['icon.svg', 'image/svg+xml']], ['/manifest.webmanifest', ['manifest.webmanifest', 'application/manifest+json']]]);
+const assets = new Map([['/', ['index.html', 'text/html']], ['/privacy', ['privacy.html', 'text/html']], ['/app.js', ['app.js', 'text/javascript']], ['/style.css', ['style.css', 'text/css']], ['/icon.svg', ['icon.svg', 'image/svg+xml']], ['/manifest.webmanifest', ['manifest.webmanifest', 'application/manifest+json']]]);
 
 export function createApp({ config, gmail, store, demo = false }) {
   const origin = safeOrigin(config.origin);

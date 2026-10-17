@@ -71,6 +71,8 @@ Only the web app shell is installable; this version has no offline mail cache, s
 
 ## Security design and limits
 
+Read the [privacy policy](public/privacy.html), also available at `/privacy` on your server before signing in.
+
 - Loopback-only server binding. Explicit configured Host checks reduce DNS rebinding exposure. Tailscale is an access layer, not a replacement for application authentication.
 - Owner-only Google identity verification, expiring one-use OAuth state and PKCE, server-side sessions, CSRF validation, same-origin requests, and HttpOnly/SameSite cookies (Secure over HTTPS).
 - Read-only Gmail scope and a separate optional send scope. No Gmail modify/delete scope. No automatic email sending or AI-driven actions.

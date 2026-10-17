@@ -10,8 +10,10 @@ import { email, safeOrigin } from './security.js';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const demo = process.argv.includes('--demo');
 let config = {};
-try { config = JSON.parse(readFileSync(resolve(root, 'config.local.json'), 'utf8')); }
-catch (error) { if (error.code !== 'ENOENT') throw new Error('config.local.json is invalid JSON.'); }
+if (!demo) {
+  try { config = JSON.parse(readFileSync(resolve(root, 'config.local.json'), 'utf8')); }
+  catch (error) { if (error.code !== 'ENOENT') throw new Error('config.local.json is invalid JSON.'); }
+}
 config = { port: 4317, origin: 'http://127.0.0.1:4317', ...config };
 if (process.env.PORT) { config.port = Number(process.env.PORT); if (!config.origin.includes('.ts.net')) config.origin = `http://127.0.0.1:${config.port}`; }
 if (demo) { config.ownerEmail = 'you@example.com'; config.origin = `http://127.0.0.1:${config.port}`; }

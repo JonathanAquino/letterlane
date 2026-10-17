@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Privacy · Letterlane</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="setup-card">
+<a href="/">Back to Letterlane</a>
+<h1>Privacy</h1><p>Updated October 17, 2026</p>
+<p>Letterlane is a self-hosted, single-owner Gmail workspace. The person running this server controls its configuration and local data. Publishing its source code does not publish mailbox data.</p>
+<h2>Google access</h2>
+<p>Letterlane requests your verified Google email address to restrict sign-in to the configured owner. Read-only Gmail access lets it show messages, previews, sender details, and attachment names. Optional Gmail send access lets you compose and reply after reviewing each message. It does not request permission to delete, archive, label, or change read status in Gmail.</p>
+<h2>Storage and sharing</h2>
+<p>Google authorization tokens are stored in macOS Keychain. The OAuth client secret stays in the server's local configuration. Message headers and previews remain in server memory; bodies are fetched when opened and displayed in your browser. Sender rules, message identifiers, local flags, and minimal send receipts are stored in a local SQLite database. Browser and server memory, operating system backups, and swap may retain data beyond an individual view.</p>
+<p>The application contacts Google to authenticate and access Gmail. It delivers mail content to your authenticated browser through the server address you configure. If you enable Tailscale, its service provides private network connectivity. Letterlane does not send your messages to analytics, advertising, or AI services, sell data, or use it for model training. Opening Gmail or other external websites is subject to those services' policies.</p>
+<h2>Your controls</h2>
+<p>Sign out to end the current browser session. Disconnect in Settings to revoke the Google grant and remove its Keychain item, or remove Letterlane from your Google Account's third-party connections. Disconnecting clears loaded server mail metadata but leaves local rules and send receipts. Stop the server and remove its private .data/live directory to erase those local records; separately manage backups. Your Gmail messages remain in Google.</p>
+<h2>Limited use</h2>
+<p>Letterlane's use and transfer of information received from Google APIs adheres to the Google API Services User Data Policy, including its Limited Use requirements.</p>
+<p>For privacy questions, contact the person who operates your Letterlane server. For public code issues, use the project's GitHub repository without including messages, tokens, private server addresses, or personal information.</p>
+</main></body></html>

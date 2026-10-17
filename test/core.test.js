@@ -76,6 +76,26 @@ test('Gmail sends only with a granted send scope and uses PKCE plus expiring sta
   assert.ok(session.oauth.expires > Date.now()); assert.ok(url.searchParams.get('scope').includes(SEND_SCOPE));
 });
 
+test('Google identity must match the owner before tokens can be saved', async () => {
+  const originalFetch = globalThis.fetch;
+  const saved = [];
+  const gmail = new Gmail({ origin: 'http://127.0.0.1:4317', ownerEmail: 'owner@example.com' }, { write: async tokens => saved.push(tokens) });
+  gmail.tokenRequest = async () => ({ access_token: 'test-only', refresh_token: 'test-only', scope: READ_SCOPE, expires_in: 3600 });
+  try {
+    globalThis.fetch = async () => Response.json({ email: 'other@example.com', email_verified: true });
+    await assert.rejects(gmail.complete('test-code', { verifier: 'test' }), /configured owner/);
+    globalThis.fetch = async () => Response.json({ email: 'owner@example.com', email_verified: false });
+    await assert.rejects(gmail.complete('test-code', { verifier: 'test' }), /configured owner/);
+    assert.equal(saved.length, 0); assert.equal(gmail.tokens, null);
+    globalThis.fetch = async () => Response.json({ email: 'owner@example.com', email_verified: true });
+    await gmail.complete('test-code', { verifier: 'test' });
+    assert.equal(saved.length, 1); assert.equal(gmail.canSend(), false);
+    gmail.tokenRequest = async () => ({ access_token: 'new-test-only', scope: `${READ_SCOPE} ${SEND_SCOPE}`, expires_in: 3600 });
+    await gmail.complete('test-code', { verifier: 'test' });
+    assert.equal(gmail.tokens.refresh_token, 'test-only'); assert.equal(gmail.canSend(), true);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
 test('private HTTP boundary, CSRF, state changes and duplicate-send protection', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'letterlane-server-')), store = new Store(dir), gmail = new DemoGmail();
   const config = { origin: 'http://127.0.0.1:4317', ownerEmail: 'owner@example.com' };
@@ -122,5 +142,7 @@ test('live app never exposes mail before owner sign-in; OAuth state cannot be fo
     assert.equal((await fetch(base + '/api/message/a1', opts)).status, 401);
     assert.equal((await fetch(base + '/auth/callback?code=bad&state=forged', opts)).status, 400);
     const html = await fetch(base, opts); assert.match(html.headers.get('content-security-policy'), /frame-ancestors 'none'/);
+    const privacy = await fetch(base + '/privacy', opts);
+    assert.equal(privacy.status, 200); assert.match(await privacy.text(), /Limited Use requirements/);
   } finally { await new Promise(resolve => server.close(resolve)); store.close(); rmSync(dir, { recursive: true, force: true }); }
 });

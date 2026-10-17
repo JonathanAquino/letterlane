@@ -24,6 +24,9 @@ export class Keychain {
       const child = execFile('/usr/bin/security', ['-i'], { maxBuffer: 1024 * 1024 }, error => error ? reject(new Error('Could not save authorization to Keychain.')) : resolve());
       child.stdin.end(`add-generic-password -U -a "${this.account}" -s "${service}" -w "${encoded}"\n`);
     });
+    // Interactive security may exit successfully even if an individual command failed.
+    const saved = await this.read();
+    if (saved?.access_token !== tokens.access_token || saved?.refresh_token !== tokens.refresh_token) throw new Error('Could not verify authorization saved to Keychain.');
   }
   async clear() {
     try { await exec('/usr/bin/security', ['delete-generic-password', '-a', this.account, '-s', service]); }
